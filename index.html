@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mure.mind — reflect, nuture, grow</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Google Fonts untuk font puitis -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="theme-happy bg-skin-base text-skin-text min-h-screen transition-all duration-500 ease-in-out overflow-x-hidden">
+
+    <div class="flex min-h-screen">
+        <!-- SIDEBAR KIRI -->
+        <aside class="w-64 bg-white/40 backdrop-blur-md border-r border-black/5 flex flex-col justify-between p-6 z-20">
+            <div>
+                <div class="flex items-center gap-3 mb-8">
+                    <span class="text-2xl">✨</span>
+                    <h1 class="font-semibold text-lg tracking-wide text-gray-800">AuraJournal</h1>
+                </div>
+                
+                <nav class="space-y-2">
+                    <button id="nav-write" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/80 shadow-sm font-medium transition-all duration-300">
+                        <span>📝</span> Menulis
+                    </button>
+                    <button id="nav-pixels" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/50 text-gray-600 font-medium transition-all duration-300">
+                        <span>📊</span> Year in Pixels
+                    </button>
+                </nav>
+            </div>
+            
+            <!-- Mini Status/Footer Sidebar -->
+            <div class="text-xs text-gray-400">
+                &copy; 2026 REMU STUDIO
+            </div>
+        </aside>
+
+        <!-- AREA UTAMA -->
+        <main class="flex-1 flex flex-col relative">
+            <!-- Top Bar / Navigasi Tanggal -->
+            <header class="p-6 flex justify-between items-center bg-transparent z-10">
+                <div class="flex items-center gap-4">
+                    <input type="date" id="journal-date" class="bg-white/60 backdrop-blur-sm border border-black/5 rounded-xl px-4 py-2 font-medium focus:outline-none focus:ring-2 focus:ring-amber-300 transition-all">
+                </div>
+                
+                <!-- Mood Dynamic Selector -->
+                <div class="flex bg-white/40 backdrop-blur-sm p-1 rounded-full border border-black/5 shadow-sm gap-1">
+                    <button data-mood="happy" class="mood-btn px-3 py-1.5 rounded-full text-sm transition-all duration-300 hover:scale-105">😊 Happy</button>
+                    <button data-mood="sad" class="mood-btn px-3 py-1.5 rounded-full text-sm transition-all duration-300 hover:scale-105">😢 Sad</button>
+                    <button data-mood="calm" class="mood-btn px-3 py-1.5 rounded-full text-sm transition-all duration-300 hover:scale-105">🧘 Calm</button>
+                    <button data-mood="stressed" class="mood-btn px-3 py-1.5 rounded-full text-sm transition-all duration-300 hover:scale-105">🤯 Stressed</button>
+                </div>
+            </header>
+
+            <!-- KONTEN: MODE MENULIS -->
+            <section id="view-write" class="flex-1 flex justify-center items-start p-6 overflow-y-auto">
+                <div class="w-full max-w-2xl relative">
+                    <!-- Lembar Jurnal (Canvas Drop) -->
+                    <div id="journal-paper" class="bg-white shadow-xl shadow-black/5 rounded-2xl p-12 min-h-[550px] relative transition-all duration-300 border border-black/5 flex flex-col">
+                        <input type="text" id="journal-title" placeholder="Judul lembar hari ini..." class="w-full text-2xl font-semibold placeholder-gray-300 focus:outline-none mb-6 bg-transparent">
+                        <textarea id="journal-content" placeholder="Ceritakan apa saja yang terjadi hari ini..." class="w-full flex-1 resize-none placeholder-gray-300 focus:outline-none text-base leading-relaxed bg-transparent"></textarea>
+                        
+                        <!-- Tempat Render Stiker yang sudah dijatuhkan -->
+                        <div id="sticker-canvas" class="absolute inset-0 pointer-events-none z-10"></div>
+                    </div>
+
+                    <!-- Floating Mini Habit Tracker -->
+                    <div class="absolute -right-20 top-12 flex flex-col gap-4 bg-white/60 backdrop-blur-md p-3 rounded-2xl shadow-lg border border-black/5">
+                        <button id="habit-water" class="w-12 h-12 rounded-xl bg-blue-50 hover:bg-blue-100 flex flex-col items-center justify-center relative overflow-hidden group transition-all duration-300">
+                            <span class="z-10 text-xl group-hover:scale-110 transition-transform">💧</span>
+                            <div id="water-fluid" class="absolute bottom-0 left-0 right-0 bg-blue-400/40 h-0 transition-all duration-500"></div>
+                        </button>
+                        <button id="habit-meditate" class="w-12 h-12 rounded-xl bg-purple-50 hover:bg-purple-100 flex items-center justify-center transition-all duration-300">
+                            <span id="meditate-icon" class="text-xl">🧘‍♀️</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- KONTEN: MODE YEAR IN PIXELS -->
+            <section id="view-pixels" class="flex-1 p-8 overflow-y-auto hidden">
+                <div class="max-w-4xl mx-auto bg-white/80 backdrop-blur-md rounded-2xl p-8 border border-black/5 shadow-xl">
+                    <h2 class="text-xl font-semibold mb-6 flex items-center gap-2">📊 Tahun dalam Jajaran Piksel</h2>
+                    
+                    <!-- Indikator Warna -->
+                    <div class="flex gap-4 mb-6 text-xs font-medium text-gray-500">
+                        <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-amber-200"></span> Happy</div>
+                        <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-slate-300"></span> Sad</div>
+                        <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-200"></span> Calm</div>
+                        <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-zinc-700"></span> Stressed</div>
+                    </div>
+
+                    <!-- Kontainer Utama Grid -->
+                    <div class="overflow-x-auto">
+                        <div class="grid grid-cols-12 gap-2 min-w-[600px]" id="pixels-grid-container">
+                            <!-- Generate via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PANEL STIKER SLIDE-OVER -->
+            <div id="sticker-panel" class="fixed right-6 bottom-6 bg-white/90 backdrop-blur-md border border-black/5 p-4 rounded-2xl shadow-2xl z-30 transition-all duration-300 translate-y-2 opacity-0 pointer-events-none">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-xs font-bold tracking-wider uppercase text-gray-400">Koleksi Stiker</h3>
+                    <button id="close-sticker-panel" class="text-gray-400 hover:text-gray-600 text-xs">Tutup</button>
+                </div>
+                <div class="flex gap-3">
+                    <div class="sticker-item cursor-grab w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-2xl hover:scale-110 active:cursor-grabbing transition-all" draggable="true" data-sticker-id="st-star">⭐</div>
+                    <div class="sticker-item cursor-grab w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-2xl hover:scale-110 active:cursor-grabbing transition-all" draggable="true" data-sticker-id="st-heart">❤️</div>
+                    <div class="sticker-item cursor-grab w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-2xl hover:scale-110 active:cursor-grabbing transition-all" draggable="true" data-sticker-id="st-cloud">☁️</div>
+                    <div class="sticker-item cursor-grab w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-2xl hover:scale-110 active:cursor-grabbing transition-all" draggable="true" data-sticker-id="st-cat">🐱</div>
+                </div>
+            </div>
+
+            <!-- Tombol Buka Panel Stiker -->
+            <button id="open-sticker-panel" class="fixed right-6 bottom-6 bg-white border border-black/5 shadow-lg w-12 h-12 rounded-full flex items-center justify-center hover:scale-110 transition-all z-20">🎨</button>
+        </main>
+    </div>
+
+    <!-- Load Semua Modul JavaScript -->
+    <script src="js/storage.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/pixels.js"></script>
+    <script src="js/stickers.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
