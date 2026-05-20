@@ -1,0 +1,30 @@
+/* Custom CSS Variables untuk Tema Dinamis */
+.theme-happy {
+    --bg-base: #FEFCE8; /* Pastel Warm Yellow */
+    --text-main: #713F12;
+}
+
+.theme-sad {
+    --bg-base: #E2E8F0; /* Slate Blue Aesthetic */
+    --text-main: #334155;
+    font-family: 'Instrument Serif', serif !important;
+}
+
+.theme-calm {
+    --bg-base: #ECEFEB; /* Sage Green */
+    --text-main: #2C3E2B;
+    font-family: 'Instrument Serif', serif !important;
+}
+
+.theme-stressed {
+    --bg-base: #18181B; /* Dark mode minimalist */
+    --text-main: #F4F4F5;
+}
+
+/* Mapping variabel ke kelas utility buatan kita sendiri */
+.bg-skin-base {
+    background-color: var(--bg-base);
+}
+.text-skin-text {
+    color: var(--text-main);
+}
